@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard, Briefcase, FileText, Users, Trophy,
-  Star, LogOut, ChevronLeft, ChevronRight, Bell,
+  Star, LogOut, ChevronLeft, ChevronRight, Bell, User,
 } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
@@ -15,6 +15,7 @@ const adminLinks = [
   { to: "/admin/applications", icon: FileText, label: "Applications" },
   { to: "/admin/scores", icon: Star, label: "Score Management" },
   { to: "/admin/leaderboard", icon: Trophy, label: "Leaderboard" },
+  { to: "/profile", icon: User, label: "My Profile" },
 ];
 
 const studentLinks = [
@@ -24,6 +25,7 @@ const studentLinks = [
   { to: "/my-score", icon: Star, label: "My Score" },
   { to: "/leaderboard", icon: Trophy, label: "Leaderboard" },
   { to: "/notifications", icon: Bell, label: "Notifications" },
+  { to: "/profile", icon: User, label: "My Profile" },
 ];
 
 const Sidebar = () => {
