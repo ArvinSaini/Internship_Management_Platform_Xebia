@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Briefcase, Upload, Eye, EyeOff } from "lucide-react";
+import { Briefcase, Upload, Eye, EyeOff, Sun, Moon, Github } from "lucide-react";
 import toast from "react-hot-toast";
 import { registerStudent } from "../../api/authApi";
 
@@ -10,8 +10,17 @@ const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
   const [preview, setPreview] = useState(null);
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "dark");
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const password = watch("password");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme === "light" ? "light" : "");
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => t === "dark" ? "light" : "dark");
+  const isDark = theme === "dark";
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -46,9 +55,22 @@ const RegisterPage = () => {
   );
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg)", padding: "2rem 1rem" }}>
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "var(--bg)", padding: "2rem 1rem", position: "relative" }}>
       <div style={{ position: "fixed", inset: 0, overflow: "hidden", pointerEvents: "none", zIndex: 0 }}>
         <div style={{ position: "absolute", top: "-10rem", right: "-10rem", width: "35rem", height: "35rem", background: "radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)", borderRadius: "50%" }} />
+        <div style={{ position: "absolute", bottom: "-8rem", left: "-8rem", width: "28rem", height: "28rem", background: "radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)", borderRadius: "50%" }} />
+      </div>
+
+      {/* Theme Toggle */}
+      <div style={{ position: "fixed", top: "1.25rem", right: "1.25rem", zIndex: 10 }}>
+        <button
+          id="theme-toggle-register"
+          onClick={toggleTheme}
+          style={{ width: "2.5rem", height: "2.5rem", borderRadius: "50%", background: "var(--surface)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--text-muted)", transition: "all 0.2s", boxShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
+          title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        >
+          {isDark ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
       </div>
 
       <div className="card animate-fadein" style={{ width: "100%", maxWidth: "26rem", padding: "2rem", position: "relative", zIndex: 1 }}>
@@ -56,8 +78,8 @@ const RegisterPage = () => {
           <div style={{ width: "3.5rem", height: "3.5rem", background: "var(--accent)", borderRadius: "1rem", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 0.75rem", boxShadow: "0 0 24px var(--accent-glow)" }}>
             <Briefcase size={22} color="#fff" />
           </div>
-          <h1 style={{ color: "var(--text)", fontWeight: 800, fontSize: "1.4rem" }}>Create Account</h1>
-          <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginTop: "0.25rem" }}>Join the internship platform</p>
+          <h1 style={{ color: "var(--text)", fontWeight: 800, fontSize: "1.3rem", lineHeight: 1.3 }}>Internship Management Portal</h1>
+          <p style={{ color: "var(--text-muted)", fontSize: "0.82rem", marginTop: "0.35rem" }}>Create your account to get started</p>
         </div>
 
         {/* Avatar upload */}
@@ -116,6 +138,27 @@ const RegisterPage = () => {
           <Link to="/login" style={{ color: "var(--accent)", fontWeight: 600, textDecoration: "none" }}>Sign in</Link>
         </p>
       </div>
+
+      {/* Footer */}
+      <p style={{ marginTop: "1.75rem", color: "var(--text-faint)", fontSize: "0.95rem", zIndex: 1, textAlign: "center" }}>
+        Made with <span style={{ color: "#ef4444" }}>♥</span> by{" "}
+        <a href="https://arvinsaini.tech" target="_blank" rel="noreferrer" style={{ color: "var(--accent)", fontWeight: 700, textDecoration: "none" }}>
+          Arvin Saini
+        </a>
+      </p>
+      <a
+        href="https://github.com/ArvinSaini/Internship_Management_Platform_Xebia"
+        target="_blank"
+        rel="noreferrer"
+        id="github-repo-link-register"
+        title="View on GitHub"
+        style={{ marginTop: "0.5rem", color: "var(--text-faint)", zIndex: 1, display: "inline-flex", alignItems: "center", gap: "0.35rem", fontSize: "0.82rem", textDecoration: "none", transition: "color 0.2s" }}
+        onMouseEnter={e => e.currentTarget.style.color = "var(--accent)"}
+        onMouseLeave={e => e.currentTarget.style.color = "var(--text-faint)"}
+      >
+        <Github size={16} />
+        View on GitHub
+      </a>
     </div>
   );
 };
