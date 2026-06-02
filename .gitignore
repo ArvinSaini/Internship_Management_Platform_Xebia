@@ -1,0 +1,23 @@
+# ─── Dependencies ─────────────────────────────────────────────
+node_modules/
+
+# ─── Environment Variables ─────────────────────────────────────
+backend/.env
+frontend/.env
+
+# ─── Build Output ─────────────────────────────────────────────
+frontend/dist/
+
+# ─── Uploads ──────────────────────────────────────────────────
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# ─── Logs ─────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+
+# ─── OS / Editor ──────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
