@@ -12,6 +12,18 @@ const register = asyncHandler(async (req, res) => {
   if (!name || !email || !phone || !password) {
     res.status(400); throw new Error("Please provide all required fields.");
   }
+  
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    res.status(400); throw new Error("Please provide a valid email address.");
+  }
+
+  // Validate phone is exactly 10 digits
+  const phoneRegex = /^\d{10}$/;
+  if (!phoneRegex.test(phone)) {
+    res.status(400); throw new Error("Phone number must be exactly 10 digits.");
+  }
   const profilePicture = req.file ? `/uploads/${req.file.filename}` : "";
   const user = await authService.registerStudent({ name, email, phone, password, profilePicture });
   sendSuccess(res, 201, "Registration submitted. Awaiting admin approval.", {

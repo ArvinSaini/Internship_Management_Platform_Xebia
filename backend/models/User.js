@@ -5,7 +5,18 @@ const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    phone: { type: String, required: true, unique: true, trim: true },
+    phone: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      validate: {
+        validator: function (v) {
+          return /^\d{10}$/.test(v);
+        },
+        message: props => `${props.value} is not a valid 10-digit phone number!`
+      }
+    },
     password: { type: String, required: true, minlength: 6, select: false },
     profilePicture: { type: String, default: "" },
     role: { type: String, enum: ["Student", "Admin"], default: "Student" },

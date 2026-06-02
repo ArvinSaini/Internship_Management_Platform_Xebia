@@ -78,8 +78,14 @@ const RegisterPage = () => {
 
         <form id="register-form" onSubmit={handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column", gap: "0.9rem" }}>
           <Field id="reg-name" label="Full Name" name="name" placeholder="Arvin Saini" rules={{ required: "Name is required" }} />
-          <Field id="reg-email" label="Email Address" name="email" type="email" placeholder="you@example.com" rules={{ required: "Email is required" }} />
-          <Field id="reg-phone" label="Phone Number" name="phone" type="tel" placeholder="9876543210" rules={{ required: "Phone is required" }} />
+          <Field id="reg-email" label="Email Address" name="email" type="email" placeholder="you@example.com" rules={{ 
+            required: "Email is required", 
+            pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Invalid email format" } 
+          }} />
+          <Field id="reg-phone" label="Phone Number" name="phone" type="tel" placeholder="9876543210" rules={{ 
+            required: "Phone is required",
+            pattern: { value: /^\d{10}$/, message: "Phone must be exactly 10 digits" }
+          }} />
 
           <div>
             <label style={{ display: "block", color: "var(--text-muted)", fontSize: "0.82rem", fontWeight: 600, marginBottom: "0.4rem" }}>Password</label>

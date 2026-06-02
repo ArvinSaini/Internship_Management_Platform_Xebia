@@ -17,6 +17,13 @@ const updateProfile = asyncHandler(async (req, res) => {
   if (req.body.education && typeof req.body.education === "string") {
     req.body.education = JSON.parse(req.body.education);
   }
+  // Validate phone is exactly 10 digits if provided
+  if (req.body.phone) {
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(req.body.phone)) {
+      res.status(400); throw new Error("Phone number must be exactly 10 digits.");
+    }
+  }
   const user = await studentService.updateProfile(req.user._id, req.body);
   sendSuccess(res, 200, "Profile updated.", user);
 });

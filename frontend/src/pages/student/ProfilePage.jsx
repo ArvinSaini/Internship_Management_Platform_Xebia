@@ -98,7 +98,11 @@ const ProfilePage = () => {
               {tab === "profile" && (
                 <div className="card" style={{ padding: "1.5rem" }}>
                   <form id="profile-form" onSubmit={handleSubmit(onSaveProfile)} style={{ display: "flex", flexDirection: "column", gap: "0.9rem" }}>
-                    {[{ id: "p-name", label: "Full Name", name: "name", rules: { required: "Required" } }, { id: "p-phone", label: "Phone", name: "phone" }].map(f => (
+                    {[{ id: "p-name", label: "Full Name", name: "name", rules: { required: "Required" } }, 
+                      { id: "p-phone", label: "Phone", name: "phone", rules: { 
+                        required: "Required", 
+                        pattern: { value: /^\d{10}$/, message: "Phone must be exactly 10 digits" } 
+                      }}].map(f => (
                       <div key={f.name}>
                         <label style={{ display: "block", color: "var(--text-muted)", fontSize: "0.82rem", fontWeight: 600, marginBottom: "0.35rem" }}>{f.label}</label>
                         <input id={f.id} className="input-field" {...register(f.name, f.rules)} />
